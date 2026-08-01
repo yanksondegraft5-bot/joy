@@ -1,126 +1,752 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>Document</title>
-</head>
-<body>
-  <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>JES Catering Service</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>JES Catering Service — Takoradi, Ghana</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,500&family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+<style>
+
+:root{
+  --bg:#171008;
+  --bg-alt:#1e1409;
+  --bg-card:#231708;
+  --gold:#e2a857;
+  --gold-soft:#f0c98a;
+  --rust:#c1440e;
+  --forest:#35553c;
+  --cream:#f3ead9;
+  --muted:#b6a488;
+  --line: rgba(243,234,217,0.12);
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+html{scroll-behavior:smooth; scroll-padding-top:90px;}
+
+body{
+  background:var(--bg);
+  color:var(--cream);
+  font-family:'Work Sans', sans-serif;
+  overflow-x:hidden;
+  position:relative;
+}
+
+/* subtle grain texture */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:2000;
+  pointer-events:none;
+  opacity:0.035;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+h1,h2,h3,.display{
+  font-family:'Fraunces', serif;
+  font-weight:600;
+  letter-spacing:-0.01em;
+}
+
+.eyebrow{
+  font-family:'Work Sans', sans-serif;
+  text-transform:uppercase;
+  letter-spacing:0.22em;
+  font-size:0.72rem;
+  color:var(--gold);
+  font-weight:600;
+}
+
+img{max-width:100%; display:block;}
+
+/* ---------- Kente stripe divider (signature element) ---------- */
+.kente{
+  height:7px;
+  width:100%;
+  background:repeating-linear-gradient(
+    90deg,
+    var(--gold) 0 34px,
+    var(--rust) 34px 62px,
+    var(--forest) 62px 90px,
+    var(--cream) 90px 100px,
+    var(--gold) 100px 134px
+  );
+  background-size:268px 100%;
+  animation:driftStripe 14s linear infinite;
+}
+@keyframes driftStripe{
+  from{background-position:0 0;}
+  to{background-position:268px 0;}
+}
+
+/* ---------- Nav ---------- */
+.navbar{
+  position:fixed;
+  top:7px;
+  width:100%;
+  z-index:1000;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:1.1rem 2.5rem;
+  background:transparent;
+  transition:background 0.4s ease, padding 0.4s ease, box-shadow 0.4s ease;
+}
+.navbar.scrolled{
+  background:rgba(20,13,6,0.88);
+  backdrop-filter:blur(14px);
+  padding:0.7rem 2.5rem;
+  box-shadow:0 6px 24px rgba(0,0,0,0.35);
+}
+
+.logo-wrap{display:flex; align-items:center; gap:0.7rem;}
+.logo-img{height:52px; width:auto; border-radius:6px;}
+.logo-text{
+  font-family:'Fraunces', serif;
+  font-size:1.15rem;
+  color:var(--cream);
+  letter-spacing:0.03em;
+  line-height:1.1;
+}
+.logo-text span{display:block; font-size:0.62rem; color:var(--gold); letter-spacing:0.2em; font-weight:600; margin-top:2px;}
+
+.nav-links{
+  list-style:none;
+  display:flex;
+  gap:2.4rem;
+}
+.nav-links a{
+  color:var(--cream);
+  text-decoration:none;
+  font-weight:500;
+  font-size:0.92rem;
+  position:relative;
+  padding-bottom:4px;
+}
+.nav-links a::after{
+  content:"";
+  position:absolute;
+  left:0; bottom:0;
+  width:0%;
+  height:1.5px;
+  background:var(--gold);
+  transition:width 0.3s ease;
+}
+.nav-links a:hover::after,
+.nav-links a.active::after{width:100%;}
+.nav-links a:hover{color:var(--gold-soft);}
+
+.hamburger{
+  display:none;
+  flex-direction:column;
+  justify-content:center;
+  gap:5px;
+  width:44px; height:44px;
+  background:none; border:none; cursor:pointer;
+  z-index:1100;
+}
+.hamburger span{
+  display:block; width:26px; height:2px;
+  background-color:var(--gold);
+  transition:transform 0.3s ease, opacity 0.3s ease;
+}
+.hamburger.active span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.hamburger.active span:nth-child(2){opacity:0;}
+.hamburger.active span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+
+.nav-overlay{
+  display:none;
+  position:fixed; inset:0;
+  background:rgba(0,0,0,0.55);
+  z-index:999;
+}
+.nav-overlay.active{display:block;}
+
+/* ---------- Hero ---------- */
+.hero-container{
+  position:relative;
+  width:100%;
+  height:100vh;
+  min-height:640px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  overflow:hidden;
+  background:var(--bg);
+}
+.video-bg{
+  position:absolute;
+  top:50%; left:50%;
+  min-width:100%; min-height:100%;
+  width:auto; height:auto;
+  z-index:1;
+  transform:translate(-50%,-50%) scale(1);
+  object-fit:cover;
+  animation:heroZoom 22s ease-in-out infinite alternate;
+}
+@keyframes heroZoom{
+  from{transform:translate(-50%,-50%) scale(1);}
+  to{transform:translate(-50%,-50%) scale(1.1);}
+}
+.video-overlay{
+  position:absolute; inset:0;
+  background:
+    radial-gradient(ellipse at center, rgba(23,16,8,0.35) 0%, rgba(23,16,8,0.82) 75%),
+    linear-gradient(180deg, rgba(23,16,8,0.55) 0%, rgba(23,16,8,0.45) 40%, rgba(23,16,8,0.92) 100%);
+  z-index:2;
+}
+.hero-content{
+  position:relative;
+  z-index:3;
+  padding:0 1.5rem;
+  max-width:760px;
+}
+.hero-content .eyebrow{
+  display:inline-block;
+  margin-bottom:1.1rem;
+  padding:0.4rem 1rem;
+  border:1px solid rgba(226,168,87,0.4);
+  border-radius:40px;
+}
+.hero-content h1{
+  font-size:clamp(2.4rem, 7vw, 4.6rem);
+  color:var(--cream);
+  margin-bottom:1rem;
+  line-height:1.05;
+}
+.hero-content h1 em{
+  font-style:italic;
+  color:var(--gold);
+  font-weight:500;
+}
+.hero-content p{
+  font-size:clamp(1rem, 2.2vw, 1.2rem);
+  margin-bottom:2rem;
+  color:var(--muted);
+  max-width:520px;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+.btn{
+  display:inline-block;
+  padding:1rem 2.4rem;
+  background-color:var(--gold);
+  color:#1a1206;
+  text-decoration:none;
+  font-weight:700;
+  font-size:0.92rem;
+  letter-spacing:0.03em;
+  border-radius:2px;
+  transition:background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow:0 8px 24px rgba(226,168,87,0.15);
+}
+.btn:hover{
+  background-color:var(--gold-soft);
+  transform:translateY(-3px);
+  box-shadow:0 12px 30px rgba(226,168,87,0.28);
+}
+
+/* rotating wax seal badge */
+.seal{
+  position:absolute;
+  right:6%;
+  bottom:9%;
+  width:150px; height:150px;
+  z-index:4;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.seal svg{
+  width:100%; height:100%;
+  animation:spinSeal 22s linear infinite;
+}
+.seal svg text{
+  fill:var(--gold-soft);
+  font-size:10.3px;
+  letter-spacing:2.6px;
+  font-family:'Work Sans', sans-serif;
+  font-weight:600;
+}
+.seal i{
+  position:absolute;
+  color:var(--gold);
+  font-size:1.5rem;
+}
+@keyframes spinSeal{
+  from{transform:rotate(0deg);}
+  to{transform:rotate(360deg);}
+}
+
+.scroll-cue{
+  position:absolute;
+  bottom:2.4rem;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:4;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:0.5rem;
+  color:var(--muted);
+  font-size:0.7rem;
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+}
+.scroll-cue i{
+  animation:bounceDown 1.8s ease-in-out infinite;
+  color:var(--gold);
+}
+@keyframes bounceDown{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(8px);}
+}
+
+/* ---------- Reveal on scroll ---------- */
+.reveal{
+  opacity:0;
+  transform:translateY(34px);
+  transition:opacity 0.8s ease, transform 0.8s ease;
+}
+.reveal.visible{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* ---------- Section shared ---------- */
+.section-head{
+  text-align:center;
+  max-width:640px;
+  margin:0 auto 3.5rem auto;
+}
+.section-head .eyebrow{margin-bottom:0.7rem; display:block;}
+.section-head h2{
+  font-size:clamp(1.9rem, 4.5vw, 2.7rem);
+  color:var(--cream);
+  margin-bottom:0.8rem;
+}
+.section-head p{color:var(--muted); font-size:1rem;}
+
+/* ---------- Services / Menu ---------- */
+.services-section{
+  padding:6.5rem 2rem;
+  background:var(--bg-alt);
+}
+.menu-list{
+  max-width:920px;
+  margin:0 auto;
+  display:flex;
+  flex-direction:column;
+}
+.menu-item{
+  display:flex;
+  align-items:center;
+  gap:2.2rem;
+  padding:2.1rem 0;
+  border-bottom:1px solid var(--line);
+  transition:padding-left 0.3s ease;
+}
+.menu-item:hover{padding-left:0.6rem;}
+.menu-item:first-child{padding-top:0;}
+.menu-num{
+  font-family:'Fraunces', serif;
+  font-size:2.6rem;
+  font-weight:300;
+  color:var(--gold);
+  min-width:70px;
+  opacity:0.85;
+}
+.menu-icon{
+  width:56px; height:56px;
+  border-radius:50%;
+  border:1px solid rgba(226,168,87,0.35);
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0;
+  color:var(--gold);
+  font-size:1.25rem;
+}
+.menu-text h3{
+  font-size:1.28rem;
+  color:var(--cream);
+  margin-bottom:0.35rem;
+  font-weight:500;
+}
+.menu-text p{
+  color:var(--muted);
+  font-size:0.95rem;
+  line-height:1.55;
+  max-width:520px;
+}
+
+/* ---------- Gallery (asymmetric mosaic) ---------- */
+.gallery-section{
+  padding:6.5rem 2rem;
+  background:var(--bg);
+}
+.gallery-grid{
+  max-width:1200px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:repeat(4, 1fr);
+  grid-auto-rows:150px;
+  gap:1rem;
+}
+.gallery-item{
+  position:relative;
+  overflow:hidden;
+  border-radius:4px;
+}
+.gallery-item::after{
+  content:"";
+  position:absolute; inset:0;
+  border:1px solid rgba(226,168,87,0);
+  transition:border-color 0.3s ease;
+  pointer-events:none;
+}
+.gallery-item:hover::after{border-color:rgba(226,168,87,0.55);}
+.gallery-item img{
+  width:100%; height:100%;
+  object-fit:cover;
+  transition:transform 0.6s ease, filter 0.6s ease;
+  filter:saturate(0.92) brightness(0.94);
+}
+.gallery-item:hover img{transform:scale(1.07); filter:saturate(1.05) brightness(1);}
+.g1{grid-column:span 2; grid-row:span 2;}
+.g2{grid-column:span 2; grid-row:span 1;}
+.g3{grid-column:span 1; grid-row:span 1;}
+.g4{grid-column:span 1; grid-row:span 1;}
+.g5{grid-column:span 2; grid-row:span 1;}
+.g6{grid-column:span 2; grid-row:span 1;}
+
+/* ---------- Contact / invitation card ---------- */
+.contact-section{
+  padding:6.5rem 2rem 3rem 2rem;
+  background:var(--bg-alt);
+  text-align:center;
+}
+.invite-card{
+  max-width:620px;
+  margin:0 auto;
+  padding:3.2rem 2.4rem;
+  border:1px solid rgba(226,168,87,0.3);
+  border-radius:6px;
+  background:linear-gradient(180deg, rgba(226,168,87,0.05), transparent 60%);
+  position:relative;
+}
+.invite-card::before,
+.invite-card::after{
+  content:"";
+  position:absolute;
+  width:16px; height:16px;
+  border:1px solid var(--gold);
+}
+.invite-card::before{top:12px; left:12px; border-right:none; border-bottom:none;}
+.invite-card::after{bottom:12px; right:12px; border-left:none; border-top:none;}
+
+.contact-container{
+  display:flex;
+  justify-content:center;
+  gap:3rem;
+  flex-wrap:wrap;
+  margin:2rem 0 0.5rem 0;
+}
+.contact-item{
+  display:flex;
+  align-items:center;
+  gap:0.7rem;
+  font-size:1.02rem;
+  color:var(--cream);
+}
+.contact-item i{color:var(--gold); font-size:1.1rem;}
+
+.copyright{
+  color:#7a6b56;
+  font-size:0.8rem;
+  padding-top:2.4rem;
+  text-align:center;
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width:900px){
+  .gallery-grid{grid-template-columns:repeat(2,1fr); grid-auto-rows:170px;}
+  .g1{grid-column:span 2; grid-row:span 2;}
+  .g2,.g3,.g4,.g5,.g6{grid-column:span 1; grid-row:span 1;}
+  .seal{width:110px; height:110px; right:4%; bottom:6%;}
+  .seal svg text{font-size:11.5px;}
+}
+
+@media (max-width:768px){
+  .navbar{padding:0.7rem 1.2rem;}
+  .navbar.scrolled{padding:0.55rem 1.2rem;}
+  .logo-img{height:42px;}
+  .logo-text{font-size:0.95rem;}
+
+  .hamburger{display:flex;}
+
+  .nav-links{
+    position:fixed; top:0; right:0;
+    height:100vh;
+    width:min(78vw, 300px);
+    background:rgba(15,10,5,0.98);
+    backdrop-filter:blur(10px);
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    gap:2.3rem;
+    transform:translateX(100%);
+    transition:transform 0.35s ease;
+    box-shadow:-4px 0 24px rgba(0,0,0,0.5);
+  }
+  .nav-links.active{transform:translateX(0);}
+  .nav-links a{font-size:1.2rem;}
+
+  .seal{display:none;}
+
+  .services-section,.gallery-section,.contact-section{
+    padding-left:1.25rem; padding-right:1.25rem;
+  }
+
+  .menu-item{gap:1.2rem; padding:1.6rem 0;}
+  .menu-num{font-size:1.8rem; min-width:44px;}
+  .menu-icon{width:46px; height:46px; font-size:1.05rem;}
+  .menu-text h3{font-size:1.08rem;}
+
+  .gallery-grid{grid-template-columns:repeat(2,1fr); grid-auto-rows:140px; gap:0.6rem;}
+
+  .contact-container{flex-direction:column; align-items:center; gap:1.3rem;}
+  .invite-card{padding:2.4rem 1.4rem;}
+}
+
+@media (max-width:420px){
+  .hero-content h1{font-size:1.9rem;}
+  .btn{padding:0.85rem 1.9rem; font-size:0.85rem;}
+  .menu-item{flex-wrap:wrap;}
+}
+
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+}
+</style>
 </head>
 <body>
 
-  <nav class="navbar">
-  <div class="logo">
-    <a href="#home">
-      <img src="Copilot_20260727_200909.png" alt="JES Catering Logo" class="logo-img">
-    </a>
-  </div>
-  <ul class="nav-links">
-    <li><a href="#home">Home</a></li>
-    <li><a href="#services">Our Services</a></li>
-    <li><a href="#contact">Contact Us</a></li>
-  </ul>
-</nav>
+  <div class="kente" style="position:fixed; top:0; z-index:1001;"></div>
+
+  <nav class="navbar" id="navbar">
+    <div class="logo-wrap">
+      <a href="#home">
+        <img src="Copilot_20260727_200909.png" alt="JES Catering Logo" class="logo-img">
+      </a>
+      <div class="logo-text">JES Catering<span>TAKORADI · GHANA</span></div>
+    </div>
+
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#services">Menu</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="nav-overlay" id="navOverlay"></div>
 
   <header id="home" class="hero-container">
     <video autoplay muted loop playsinline class="video-bg">
       <source src="vid.mp4" type="video/mp4" />
-      Your browser does not support HTML5 video.
     </video>
-    
     <div class="video-overlay"></div>
 
     <div class="hero-content">
-      <h1>JES CATERING SERVICE</h1>
-      <p>Delicious Meals & Unforgettable Experiences For Every Occasion</p>
+      <span class="eyebrow">Crafted Feasts &middot; Every Occasion</span>
+      <h1>Food that turns a <em>gathering</em> into an occasion</h1>
+      <p>From intimate engagements to full corporate conferences, JES Catering brings thoughtful menus and warm hospitality to every table in Takoradi and beyond.</p>
       <a href="#contact" class="btn">Book Us Today</a>
+    </div>
+
+    <div class="seal">
+      <svg viewBox="0 0 200 200">
+        <path id="circlePath" fill="none"
+          d="M 100,100 m -78,0 a 78,78 0 1,1 156,0 a 78,78 0 1,1 -156,0"/>
+        <text>
+          <textPath href="#circlePath" startOffset="0%">
+            JES CATERING SERVICE &#9670; TAKORADI, GHANA &#9670;
+          </textPath>
+        </text>
+      </svg>
+      <i class="fa-solid fa-utensils"></i>
+    </div>
+
+    <div class="scroll-cue">
+      <span>Scroll</span>
+      <i class="fa-solid fa-chevron-down"></i>
     </div>
   </header>
 
+  <div class="kente"></div>
+
   <section id="services" class="services-section">
-    <h2>Our Services</h2>
-    <hr class="title-underline">
-    
-    <div class="services-grid">
-      <div class="service-card">
-        <i class="fa-solid fa-rings-wedding"></i>
-        <h3>Weddings & Engagements</h3>
-        <p>Customized menus to make your special day truly memorable.</p>
+    <div class="section-head reveal">
+      <span class="eyebrow">The Menu</span>
+      <h2>What we cater for</h2>
+      <p>Every event gets a menu built around it — not a template pulled off a shelf.</p>
+    </div>
+
+    <div class="menu-list">
+      <div class="menu-item reveal">
+        <span class="menu-num">01</span>
+        <div class="menu-icon"><i class="fa-solid fa-rings-wedding"></i></div>
+        <div class="menu-text">
+          <h3>Weddings &amp; Engagements</h3>
+          <p>Customized menus to make your special day truly memorable.</p>
+        </div>
       </div>
 
-      <div class="service-card">
-        <i class="fa-solid fa-cake-candles"></i>
-        <h3>Birthday Parties & Anniversaries</h3>
-        <p>Celebrate life's milestones with our delicious treats and dishes.</p>
+      <div class="menu-item reveal">
+        <span class="menu-num">02</span>
+        <div class="menu-icon"><i class="fa-solid fa-cake-candles"></i></div>
+        <div class="menu-text">
+          <h3>Birthday Parties &amp; Anniversaries</h3>
+          <p>Celebrate life's milestones with our delicious treats and dishes.</p>
+        </div>
       </div>
 
-      <div class="service-card">
-        <i class="fa-solid fa-briefcase"></i>
-        <h3>Corporate Events & Conferences</h3>
-        <p>Professional catering tailored for meetings, seminars, and corporate functions.</p>
+      <div class="menu-item reveal">
+        <span class="menu-num">03</span>
+        <div class="menu-icon"><i class="fa-solid fa-briefcase"></i></div>
+        <div class="menu-text">
+          <h3>Corporate Events &amp; Conferences</h3>
+          <p>Professional catering tailored for meetings, seminars, and corporate functions.</p>
+        </div>
       </div>
 
-      <div class="service-card">
-        <i class="fa-solid fa-graduation-cap"></i>
-        <h3>Graduations & School Gatherings</h3>
-        <p>Hearty meal options to celebrate academic milestones.</p>
+      <div class="menu-item reveal">
+        <span class="menu-num">04</span>
+        <div class="menu-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+        <div class="menu-text">
+          <h3>Graduations &amp; School Gatherings</h3>
+          <p>Hearty meal options to celebrate academic milestones.</p>
+        </div>
       </div>
 
-      <div class="service-card">
-        <i class="fa-solid fa-basket-shopping"></i>
-        <h3>Picnics & Family Reunions</h3>
-        <p>Tasty, convenient options perfect for outdoor gatherings and family time.</p>
+      <div class="menu-item reveal">
+        <span class="menu-num">05</span>
+        <div class="menu-icon"><i class="fa-solid fa-basket-shopping"></i></div>
+        <div class="menu-text">
+          <h3>Picnics &amp; Family Reunions</h3>
+          <p>Tasty, convenient options perfect for outdoor gatherings and family time.</p>
+        </div>
       </div>
     </div>
   </section>
+
+  <div class="kente"></div>
+
   <section id="gallery" class="gallery-section">
-    <h2>Our Food & Events</h2>
-    <hr class="title-underline">
+    <div class="section-head reveal">
+      <span class="eyebrow">The Table</span>
+      <h2>Our food &amp; events</h2>
+      <p>A look at the dishes and gatherings we've had the pleasure of serving.</p>
+    </div>
 
-    <div class="gallery-grid">
-      <div class="gallery-item">
-        <img src="dish1.jpg" alt="Catering Dish 1">
-      </div>
-      <div class="gallery-item">
-        <img src="dish2.jpg" alt="Catering Dish 2">
-      </div>
-      <div class="gallery-item">
-        <img src="dish3.jpg" alt="Catering Dish 3">
-      </div>
-      <div class="gallery-item">
-        <img src="dish4.jpg" alt="Catering Dish 4">
-      </div>
+    <div class="gallery-grid reveal">
+      <div class="gallery-item g1"><img src="dish1.jpg" alt="Catering Dish 1"></div>
+      <div class="gallery-item g2"><img src="dish2.jpg" alt="Catering Dish 2"></div>
+      <div class="gallery-item g3"><img src="dish3.jpg" alt="Catering Dish 3"></div>
+      <div class="gallery-item g4"><img src="dish4.jpg" alt="Catering Dish 4"></div>
     </div>
   </section>
+
+  <div class="kente"></div>
 
   <footer id="contact" class="contact-section">
-    <h2>Contact Us</h2>
-    <hr class="title-underline">
+    <div class="section-head reveal">
+      <span class="eyebrow">Get In Touch</span>
+      <h2>Let's plan your event</h2>
+    </div>
 
-    <div class="contact-container">
-      <div class="contact-item">
-        <i class="fa-solid fa-phone"></i>
-        <span>+233 (0) 592813096</span>
-      </div>
-      <div class="contact-item">
-        <i class="fa-solid fa-location-dot"></i>
-        <span>West Fijai - Takoradi</span>
+    <div class="invite-card reveal">
+      <p style="color:var(--muted); font-family:'Fraunces', serif; font-style:italic; font-size:1.15rem;">
+        "Reach out and let's build a menu around your occasion."
+      </p>
+      <div class="contact-container">
+        <div class="contact-item">
+          <i class="fa-solid fa-phone"></i>
+          <span>+233 (0) 592813096</span>
+        </div>
+        <div class="contact-item">
+          <i class="fa-solid fa-location-dot"></i>
+          <span>West Fijai — Takoradi</span>
+        </div>
       </div>
     </div>
-    
+
     <p class="copyright">&copy; 2026 JES Catering Service. All Rights Reserved.</p>
   </footer>
 
+  <script>
+    // Mobile nav toggle
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    const navOverlay = document.getElementById('navOverlay');
+
+    function closeMenu(){
+      hamburger.classList.remove('active');
+      navLinks.classList.remove('active');
+      navOverlay.classList.remove('active');
+      hamburger.setAttribute('aria-expanded','false');
+    }
+    function toggleMenu(){
+      const isActive = navLinks.classList.toggle('active');
+      hamburger.classList.toggle('active');
+      navOverlay.classList.toggle('active');
+      hamburger.setAttribute('aria-expanded', isActive ? 'true' : 'false');
+    }
+    hamburger.addEventListener('click', toggleMenu);
+    navOverlay.addEventListener('click', closeMenu);
+    navLinks.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+
+    // Navbar solidify on scroll
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    // Scroll-reveal
+    const revealEls = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          entry.target.classList.add('visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    revealEls.forEach(el => io.observe(el));
+
+    // Scroll-spy for active nav link
+    const sections = document.querySelectorAll('section[id], header[id]');
+    const navAnchors = document.querySelectorAll('.nav-links a');
+    const spy = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          navAnchors.forEach(a => a.classList.remove('active'));
+          const match = document.querySelector('.nav-links a[href="#' + entry.target.id + '"]');
+          if(match) match.classList.add('active');
+        }
+      });
+    }, { threshold: 0.5 });
+    sections.forEach(sec => spy.observe(sec));
+  </script>
+
 </body>
-</html>  
-</body>
-</html>
+    </html>
